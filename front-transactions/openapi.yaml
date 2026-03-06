@@ -1,0 +1,487 @@
+openapi: 3.0.3
+info:
+  title: API Bancaria Consolidada
+  description: API unificada para la gestión de Clientes, Cuentas, Movimientos y Reportes. Se ha eliminado la capa de seguridad Bearer para propósitos de desarrollo/demo.
+  version: 1.0.0
+servers:
+  - url: /api/v1
+    description: Servidor de API
+
+paths:
+  # --- SECCIÓN: CLIENTES ---
+  /clientes:
+    get:
+      summary: Obtener todos los clientes
+      operationId: getAllClients
+      tags:
+        - Clientes
+      responses:
+        '200':
+          description: Listado de clientes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseListCliente'
+    post:
+      summary: Crear un nuevo cliente
+      operationId: createClient
+      tags:
+        - Clientes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClienteRequest'
+      responses:
+        '201':
+          description: Cliente creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseCliente'
+
+  /clientes/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+    get:
+      summary: Obtener un cliente por su ID
+      operationId: getClientById
+      tags:
+        - Clientes
+      responses:
+        '200':
+          description: Cliente encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseCliente'
+    put:
+      summary: Actualizar un cliente
+      operationId: updateClient
+      tags:
+        - Clientes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClienteRequest'
+      responses:
+        '200':
+          description: Cliente actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseCliente'
+    delete:
+      summary: Eliminar un cliente
+      operationId: deleteClient
+      tags:
+        - Clientes
+      responses:
+        '200':
+          description: Cliente eliminado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseVoid'
+
+  # --- SECCIÓN: CUENTAS ---
+  /cuentas:
+    post:
+      summary: Create a new account
+      operationId: createAccount
+      tags:
+        - accounts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CuentaRequest'
+      responses:
+        '201':
+          description: Account created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseCuentaResponse'
+    get:
+      summary: Get all accounts
+      operationId: getAllAccounts
+      tags:
+        - accounts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseListCuentaResponse'
+
+  /cuentas/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+    get:
+      summary: Get account by ID
+      operationId: getAccountById
+      tags:
+        - accounts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseCuentaResponse'
+    put:
+      summary: Update account
+      operationId: updateAccount
+      tags:
+        - accounts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CuentaRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseCuentaResponse'
+    delete:
+      summary: Delete account
+      operationId: deleteAccount
+      tags:
+        - accounts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseVoid'
+
+  # --- SECCIÓN: MOVIMIENTOS ---
+  /movimientos:
+    post:
+      summary: Create a new movement
+      operationId: createMovement
+      tags:
+        - movements
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MovimientoRequest'
+      responses:
+        '201':
+          description: Movement created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseMovimientoResponse'
+    get:
+      summary: Get all movements
+      operationId: getAllMovements
+      tags:
+        - movements
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseListMovimientoResponse'
+
+  /movimientos/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+    get:
+      summary: Get movement by ID
+      operationId: getMovementById
+      tags:
+        - movements
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseMovimientoResponse'
+    put:
+      summary: Update movement
+      operationId: updateMovement
+      tags:
+        - movements
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MovimientoRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseMovimientoResponse'
+    delete:
+      summary: Delete movement
+      operationId: deleteMovement
+      tags:
+        - movements
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseVoid'
+
+  # --- SECCIÓN: REPORTES ---
+  /reportes:
+    post:
+      summary: Get report for client
+      operationId: getReport
+      tags:
+        - reports
+      parameters:
+        - name: startDate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReporteRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseReporteEstadoCuentaResponse'
+
+components:
+  schemas:
+    # --- SCHEMAS BASE ---
+    ApiResponseBase:
+      type: object
+      properties:
+        status: {type: boolean}
+        message: {type: string}
+
+    # --- SCHEMAS CLIENTES ---
+    ClienteRequest:
+      type: object
+      required: [nombre, identificacion, clienteId, contrasenia]
+      properties:
+        nombre: {type: string}
+        genero: {type: string}
+        edad: {type: integer, minimum: 18}
+        identificacion: {type: string}
+        direccion: {type: string}
+        telefono: {type: string}
+        clienteId: {type: string}
+        contrasenia: {type: string}
+        estado: {type: boolean, default: true}
+
+    ReplicaClienteRequest:
+      type: object
+      properties:
+        id: {type: integer, format: int64}
+        clienteId: {type: string}
+        nombre: {type: string}
+        estado: {type: boolean}
+
+    ClienteResponse:
+      type: object
+      properties:
+        id: {type: integer, format: int64}
+        clienteId: {type: string}
+        nombre: {type: string}
+        genero: {type: string}
+        edad: {type: integer}
+        identificacion: {type: string}
+        direccion: {type: string}
+        telefono: {type: string}
+        estado: {type: boolean}
+
+    ApiResponseCliente:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponseBase'
+        - type: object
+          properties:
+            data: {$ref: '#/components/schemas/ClienteResponse'}
+
+    ApiResponseListCliente:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponseBase'
+        - type: object
+          properties:
+            data:
+              type: array
+              items: {$ref: '#/components/schemas/ClienteResponse'}
+
+    # --- SCHEMAS CUENTAS ---
+    CuentaRequest:
+      type: object
+      required: [numeroCuenta, tipoCuenta, saldoInicial, clienteId]
+      properties:
+        numeroCuenta: {type: string, minLength: 6}
+        tipoCuenta: {type: string}
+        saldoInicial: {type: number, minimum: 0}
+        estado: {type: boolean}
+        clienteId: {type: integer, format: int64}
+
+    CuentaResponse:
+      type: object
+      properties:
+        id: {type: integer, format: int64}
+        numeroCuenta: {type: string}
+        tipoCuenta: {type: string}
+        saldoInicial: {type: number}
+        estado: {type: boolean}
+        clienteId: {type: string}
+        nombreCliente: {type: string}
+
+    ApiResponseCuentaResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponseBase'
+        - type: object
+          properties:
+            data: {$ref: '#/components/schemas/CuentaResponse'}
+
+    ApiResponseListCuentaResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponseBase'
+        - type: object
+          properties:
+            data:
+              type: array
+              items: {$ref: '#/components/schemas/CuentaResponse'}
+
+    # --- SCHEMAS MOVIMIENTOS ---
+    MovimientoRequest:
+      type: object
+      required: [numeroCuenta, tipoMovimiento, valor]
+      properties:
+        numeroCuenta: {type: string}
+        tipoMovimiento: {type: string, enum: [DEPOSITO, RETIRO]}
+        valor: {type: number, minimum: 0}
+
+    MovimientoResponse:
+      type: object
+      properties:
+        id: {type: integer, format: int64}
+        numeroCuenta: {type: string}
+        tipoCuenta: {type: string}
+        fecha: {type: string, format: date-time}
+        estado: {type: boolean}
+        tipoMovimiento: {type: string}
+        valor: {type: number}
+        saldo: {type: number}
+
+    ApiResponseMovimientoResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponseBase'
+        - type: object
+          properties:
+            data: {$ref: '#/components/schemas/MovimientoResponse'}
+
+    ApiResponseListMovimientoResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponseBase'
+        - type: object
+          properties:
+            data:
+              type: array
+              items: {$ref: '#/components/schemas/MovimientoResponse'}
+
+    # --- SCHEMAS REPORTES ---
+    ReporteEstadoCuentaResponse:
+      type: object
+      properties:
+        clienteId: {type: string}
+        nombreCliente: {type: string}
+        rangoFechasSolicitado: {type: string}
+        pdfContent: {type: string, description: "Contenido del reporte en formato PDF codificado en Base64"}
+        cuentas:
+          type: array
+          items: {$ref: '#/components/schemas/ReporteCuenta'}
+
+    ReporteRequest:
+      type: object
+      properties:
+        clienteId: {type: string}
+
+    ReporteCuenta:
+      type: object
+      properties:
+        numeroCuenta: {type: string}
+        tipoCuenta: {type: string}
+        saldoActual: {type: number}
+        estado: {type: boolean}
+        movimientos:
+          type: array
+          items: {$ref: '#/components/schemas/ReporteMovimiento'}
+
+    ReporteMovimiento:
+      type: object
+      properties:
+        id: {type: integer, format: int64}
+        fecha: {type: string, format: date-time}
+        tipoMovimiento: {type: string}
+        valor: {type: number}
+        saldo: {type: number}
+
+    ApiResponseReporteEstadoCuentaResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponseBase'
+        - type: object
+          properties:
+            data: {$ref: '#/components/schemas/ReporteEstadoCuentaResponse'}
+
+    # --- OTROS ---
+    ApiResponseVoid:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponseBase'
+        - type: object
+          properties:
+            data: {type: object, nullable: true}
+
+    ApiResponseError:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponseBase'

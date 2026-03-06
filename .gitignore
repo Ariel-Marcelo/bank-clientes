@@ -1,0 +1,49 @@
+# IDEs and Editors
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+.project
+.classpath
+.settings/
+.factorypath
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build Artifacts (Maven/Java)
+**/target/
+**/.mvn/wrapper/maven-wrapper.jar
+**/.mvn/wrapper/maven-wrapper.properties
+**/mvnw
+**/mvnw.cmd
+**/bin/
+**/out/
+**/.classpath
+**/.project
+**/.settings/
+
+# Dependencies (Node/Frontend)
+**/node_modules/
+**/dist/
+**/build/
+**/.vite/
+
+# Logs and temp files
+*.log
+**/logs/
+**/temp/
+**/tmp/
+
+# Environment Variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Docker
+.docker/
+docker-compose.override.yml
