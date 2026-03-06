@@ -1,0 +1,7 @@
+target/
+.idea/
+.git/
+*.iml
+# No ignorar mvnw ni pom.xml, los necesitamos para el build
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/resources/api/openapi.yaml

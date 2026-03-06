@@ -13,7 +13,7 @@ Asegúrate de tener instalados los siguientes componentes:
 Para iniciar toda la infraestructura (Base de datos, Backend y Frontend), ejecuta el siguiente comando en la raíz del proyecto:
 
 ```bash
-docker-compose up -d --build
+docker-compose up --build
 ```
 
 ### Servicios Disponibles
