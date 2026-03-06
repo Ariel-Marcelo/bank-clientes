@@ -1,18 +1,14 @@
 # Etapa 1: Construcción
-FROM eclipse-temurin:17-jdk-jammy AS build
+FROM maven:3.8.5-openjdk-17-slim AS build
 WORKDIR /app
 
-# Copiar wrapper de maven y pom
-COPY .mvn/ .mvn
-COPY mvnw pom.xml ./
-RUN chmod +x mvnw
+# Copiar el pom y descargar dependencias
+COPY pom.xml .
+RUN mvn dependency:go-offline
 
-# Descargar dependencias
-RUN ./mvnw dependency:go-offline
-
-# Construir el proyecto
+# Copiar el código fuente y construir
 COPY src ./src
-RUN ./mvnw clean package -DskipTests
+RUN mvn clean package -DskipTests
 
 # Etapa 2: Ejecución
 FROM eclipse-temurin:17-jre-jammy
